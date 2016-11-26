@@ -1,0 +1,80 @@
+" ===========================
+" General
+" ===========================
+" ビジュアルベルを表示しない
+set visualbell
+highlight Bell display:none
+
+" 検索ボックスにフォーカスしない
+set focuscontent
+
+" ヒントをアルファベットにする
+set hintchars=hjklasdfgyuiopqwertnmzxcvb
+
+" 検索時、大文字が含まれている場合にのみ case sensitiveにする
+set ignorecase
+set smartcase
+
+" デフォルトの検索エンジン
+set defsearch=google
+
+" ===========================
+" Key Map
+" ===========================
+" h,lに前のタブ,次のタブを割り当てる
+map h <C-p>
+map l <C-n>
+
+" H,Lに戻る/進むを割り当てる
+map H <A-Left>
+map L <A-Right>
+
+" <ESC>で検索ハイライト削除
+nnoremap <ESC> :nohlsearch<CR><ESC>
+
+" <C-r>で設定ファイル再読み込み
+nnoremap <C-r> :source<Space>~/.vimperatorrc<CR>
+
+" Uで最近閉じたタブを表示する
+map U :u<Space>
+
+" sでぐぐる
+nnoremap s :tabopen<Space>google<Space>
+
+" ===========================
+" _smooziee.js
+" ===========================
+let g:smooziee_scroll_amount="100"
+let g:smooziee_scroll_interval="20"
+
+" ===========================
+" stella.js
+" ===========================
+map -u=www.nicovideo.jp/watch/ x :stcomment<CR>
+map -u=www.nicovideo.jp/watch/ c :stseek! -10<CR>
+map -u=www.nicovideo.jp/watch/ v :stseek! +10<CR>
+map -u=www.nicovideo.jp/watch/ n :stplay<CR>
+
+map -u=www.youtube.com/watch p :stplay <CR>
+map -u=www.youtube.com/watch <Left> :stseek! -5<CR>
+map -u=www.youtube.com/watch <Right> :stseek! +5<CR>
+
+" ===========================
+" feedSomeKeys
+" ===========================
+command! -nargs=+ lazy autocmd VimperatorEnter .* <args>
+lazy fmaps -u='mail\.google\.com/mail' c / j k n p o u e x s r <S-i>  a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -u='mail\.google\.com/mail/.*/[0-9a-f]+$' c / j,n k,p n,j p,k o u e x s r a # [ ] ? gi gs gt gd ga gc
+lazy fmaps -e=vkeydown -u='www\.inoreader\.com/' j k n p o v a r u m f
+lazy fmaps -e=vkeydown -u='www\.tumblr\.com/' j k r t q p n L l<CR>
+
+" ===========================
+" multi_requester.js
+" ===========================
+nmap K <M-c>:mr<Space>wikipedia-ja<Space><M-v><CR>
+vmap K <M-c><Esc><Esc>:mr<Space>wikipedia-ja<Space><M-v><CR>
+nmap A <M-c>:mr<Space>alc<Space><M-v><CR>
+vmap A <M-c><Esc><Esc>:mr<Space>alc<Space><M-v><CR>
+nmap T <M-c>:mr<Space>googletrans-ja<Space><M-v><CR>
+vmap T <M-c><Esc><Esc>:mr<Space>googletrans-ja<Space><M-v><CR>
+
