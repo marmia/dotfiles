@@ -32,6 +32,9 @@ map L <A-Right>
 " <ESC>で検索ハイライト削除
 nnoremap <ESC> :nohlsearch<CR><ESC>
 
+" URLとTITLEをorg-mode形式でコピー
+nnoremap <C-y> :js util.copyToClipboard('[['+buffer.URL+']['+buffer.title+']]')<CR>
+
 " <C-r>で設定ファイル再読み込み
 nnoremap <C-r> :source<Space>~/.vimperatorrc<CR>
 
