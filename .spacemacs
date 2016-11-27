@@ -303,19 +303,23 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
+
   ;; Window size
   (setq default-frame-alist
     '((width . 155) (height . 40)))
+
   ;; Line number format
   (setq nlinum-relative-redisplay-delay 0.1)      ;; delay
   (setq nlinum-relative-current-symbol "")        ;; or "" for display current line number, or "0" "->" etc
   (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
   (setq nlinum-format "%5d ")
+
+  ;; org-agenda
+  (setq org-agenda-files '("~/Dropbox/Memo"))
+
   ;; org-capture
   (setq org-capture-templates
-     '(("t" "Todo" entry (file+headline "~/Dropbox/Memo/todo.org" "Tasks")
-        "* TODO %?\n  %i\n  %a")
-       ("j" "Journal" entry (file+datetree "~/Dropbox/Memo/journal.org")
+     '(("j" "Journal" entry (file+datetree "~/Dropbox/Memo/journal.org")
         "* %?\nEntered on %U\n  %i\n  %a")))
   )
 
