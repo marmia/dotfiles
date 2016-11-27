@@ -135,7 +135,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Source Han Code JP"
-                               :size 13
+                               :size 12
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -303,11 +303,20 @@ layers configuration.
 This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
-  ;; nlinum
+  ;; Window size
+  (setq default-frame-alist
+    '((width . 155) (height . 40)))
+  ;; Line number format
   (setq nlinum-relative-redisplay-delay 0.1)      ;; delay
   (setq nlinum-relative-current-symbol "")        ;; or "" for display current line number, or "0" "->" etc
   (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
   (setq nlinum-format "%5d ")
+  ;; org-capture
+  (setq org-capture-templates
+     '(("t" "Todo" entry (file+headline "~/Dropbox/Memo/todo.org" "Tasks")
+        "* TODO %?\n  %i\n  %a")
+       ("j" "Journal" entry (file+datetree "~/Dropbox/Memo/journal.org")
+        "* %?\nEntered on %U\n  %i\n  %a")))
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
