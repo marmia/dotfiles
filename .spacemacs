@@ -134,8 +134,8 @@ values."
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
-   dotspacemacs-default-font '("Source Han Code JP"
-                               :size 12
+   dotspacemacs-default-font '("Ricty Diminished Discord"
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -306,7 +306,7 @@ you should place your code here."
 
   ;; Window size
   (setq default-frame-alist
-    '((width . 155) (height . 40)))
+    '((width . 175) (height . 48)))
 
   ;; Line number format
   (setq nlinum-relative-redisplay-delay 0.1)      ;; delay
@@ -321,6 +321,15 @@ you should place your code here."
   (setq org-capture-templates
      '(("j" "Journal" entry (file+datetree "~/Dropbox/Memo/journal.org")
         "* %?\nEntered on %U\n  %i\n  %a")))
+
+  ;; org-mode header height
+  (custom-set-faces
+   '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
+   '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
+   '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
+   '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
+   '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
+   )
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
