@@ -314,7 +314,7 @@ you should place your code here."
   (setq nlinum-format "%5d ")
 
   ;; org-agenda
-  (setq org-agenda-files '("~/Dropbox/Memo"))
+  (setq org-agenda-files (append '("~/Dropbox/Memo/journal.org" "~/Dropbox/Memo/todo.org")))
 
   ;; org-capture
   (setq org-capture-templates
@@ -329,6 +329,24 @@ you should place your code here."
    '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
    )
+
+  ;; google-translate.el
+  (require 'google-translate)
+  (global-set-key [(C x) (C t)] 'google-translate-at-point)
+  (custom-set-variables
+   '(google-translate-default-source-language "en")
+   '(google-translate-default-target-language "ja"))
+
+  ;; popwin.el
+  (require 'popwin)
+  (setq display-buffer-function 'popwin:display-buffer)
+  (setq popwin:popup-window-position 'bottom)
+  (push '("*Google Translate*") popwin:special-display-config)
+
+  ;; LilyPond mode
+  (require 'lilypond-mode)
+  (add-to-list 'auto-mode-alist '("\\.ly\'" . LilyPond-mode))
+  (add-hook 'LilyPond-mode-hook 'turn-on-font-lock)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
