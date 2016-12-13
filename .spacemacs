@@ -314,12 +314,14 @@ you should place your code here."
   (setq nlinum-format "%5d ")
 
   ;; org-agenda
-  (setq org-agenda-files (append '("~/Dropbox/Memo/journal.org" "~/Dropbox/Memo/todo.org")))
+  (setq org-agenda-files (append '("~/Dropbox/Memo/todo.org") (file-expand-wildcards "~/Dropbox/Memo/journal*.org")))
 
   ;; org-capture
+  (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Memo/journal_%Y%m.org"))
   (setq org-capture-templates
-     '(("j" "Journal" entry (file+datetree "~/Dropbox/Memo/journal.org")
-        "* %?\nEntered on %U\n  %i\n  %a")))
+        '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
+           "* %? %T\n %i\n %a")
+          ))
 
   ;; org-mode header height
   (custom-set-faces
