@@ -313,6 +313,9 @@ you should place your code here."
   (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
   (setq nlinum-format "%5d ")
 
+  ;; org-mode
+  (setq org-startup-indented t)
+
   ;; org-agenda
   (setq org-agenda-files (append '("~/Dropbox/Memo/todo.org") (file-expand-wildcards "~/Dropbox/Memo/journal*.org")))
 
