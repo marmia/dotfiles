@@ -324,6 +324,8 @@ you should place your code here."
   (setq org-capture-templates
         '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
            "* %? %T\n %i\n %a")
+          ("t" "Todo" entry (file+headline "~/Dropbox/Memo/todo.org" "Inbox")
+           "* TODO %?\n %i\n %a")
           ))
 
   ;; org-mode header height
