@@ -321,7 +321,7 @@ you should place your code here."
   (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Memo/journal_%Y%m.org"))
   (setq org-capture-templates
         '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
-           "* %? %T\n %i\n %a")
+           "* %?\n%i\n%a\n\nEntered on %T\n")
           ("t" "Todo" entry (file+headline "~/Dropbox/Memo/todo.org" "Inbox")
            "* TODO %?\n %i\n %a")
           ))
