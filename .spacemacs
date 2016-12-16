@@ -357,6 +357,10 @@ you should place your code here."
   (require 'lilypond-mode)
   (add-to-list 'auto-mode-alist '("\\.ly\'" . LilyPond-mode))
   (add-hook 'LilyPond-mode-hook 'turn-on-font-lock)
+
+  ;; Key Bindings
+  (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+    "," 'org-agenda-tree-to-indirect-buffer)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
