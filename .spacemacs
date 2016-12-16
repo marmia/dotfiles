@@ -306,6 +306,9 @@ you should place your code here."
   ;; Window size
   (setq default-frame-alist '((width . 175) (height . 48)))
 
+  ;; Number of recent list : A nil value means to save the whole list.
+  (setq recentf-max-saved-items nil)
+
   ;; Line number format
   (setq nlinum-relative-redisplay-delay 0.1)      ;; delay
   (setq nlinum-relative-current-symbol "")        ;; or "" for display current line number, or "0" "->" etc
