@@ -320,6 +320,7 @@ you should place your code here."
 
   ;; org-agenda
   (setq org-agenda-files (append '("~/Dropbox/Memo/todo.org") (file-expand-wildcards "~/Dropbox/Memo/journal*.org")))
+  (setq org-agenda-window-setup 'current-window)
 
   ;; org-capture
   (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Memo/journal_%Y%m.org"))
