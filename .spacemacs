@@ -319,16 +319,16 @@ you should place your code here."
   (setq org-startup-indented t)
 
   ;; org-agenda
-  (setq org-agenda-files (append '("~/Dropbox/Memo/todo.org") (file-expand-wildcards "~/Dropbox/Memo/journal*.org")))
+  (setq org-agenda-files (append '("~/Dropbox/Notes/todo.org") (file-expand-wildcards "~/Dropbox/Notes/journal*.org")))
   (setq org-agenda-window-setup 'current-window)
 
   ;; org-capture
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
-  (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Memo/journal_%Y%m.org"))
+  (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Notes/journal_%Y%m.org"))
   (setq org-capture-templates
         '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
            "* %?\n%i\n%a\n\nEntered on %T\n")
-          ("t" "Todo" entry (file+headline "~/Dropbox/Memo/todo.org" "Inbox")
+          ("t" "Todo" entry (file+headline "~/Dropbox/Notes/todo.org" "Inbox")
            "* TODO %?\n %i\n %a")
           ))
 
