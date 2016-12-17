@@ -360,6 +360,14 @@ you should place your code here."
   (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '(
+     (emacs-lisp . t)
+     (sh t)
+     (org t)
+     (lilypond t)))
+
   ;; Key Bindings
   (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
     "," 'org-agenda-tree-to-indirect-buffer)
