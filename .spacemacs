@@ -323,6 +323,7 @@ you should place your code here."
   (setq org-agenda-window-setup 'current-window)
 
   ;; org-capture
+  (add-hook 'org-capture-mode-hook 'delete-other-windows)
   (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Memo/journal_%Y%m.org"))
   (setq org-capture-templates
         '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
