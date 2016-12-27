@@ -341,6 +341,20 @@ you should place your code here."
    '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
    )
 
+  ;; Archive All Done Item
+  (defun org-archive-all-done-item ()
+    "Archive all item that have with prefix DONE."
+    (interactive)
+    (save-excursion
+      (show-all)
+      (goto-char (point-min))
+      (while (search-forward-regexp "^[\\*]+ DONE" nil t)
+        (if (search-backward-regexp "^[\\*]+ Archived Tasks" nil t)
+            (goto-char (point-max))
+          (org-advertized-archive-subtree)))
+      (message "Archive finished")
+      (org-display-all-todo-item)))
+
   ;; google-translate.el
   (require 'google-translate)
   (global-set-key [(C x) (C t)] 'google-translate-at-point)
