@@ -378,6 +378,7 @@ you should place your code here."
    'org-babel-load-languages
    '(
      (emacs-lisp . t)
+     (python t)
      (sh t)
      (org t)
      (lilypond t)))
