@@ -50,14 +50,20 @@ values."
      ;; syntax-checking
      ;; version-control
      python
+     ruby
      vimscript
      nlinum
+     dash
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
    ;; packages, then consider creating a layer. You can also put the
    ;; configuration in `dotspacemacs/user-config'.
-   dotspacemacs-additional-packages '()
+   dotspacemacs-additional-packages
+   '(
+     osc
+     sonic-pi
+     )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
    ;; A list of packages that will not be installed and loaded.
@@ -368,6 +374,20 @@ you should place your code here."
   (setq popwin:popup-window-position 'bottom)
   (push '("*Google Translate*") popwin:special-display-config)
 
+  ;; Sonic Pi
+  (require 'sonic-pi)
+  (setq sonic-pi-path "/usr/local/share/Sonic-Pi/")
+  (spacemacs/set-leader-keys-for-major-mode 'ruby-mode
+    "," 'sonic-pi-mode)
+  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
+    "j" 'sonic-pi-jack-in)
+  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
+    "b" 'sonic-pi-send-buffer)
+  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
+    "r" 'sonic-pi-send-region)
+  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
+    "s" 'sonic-pi-stop-all)
+
   ;; LilyPond mode
   (setq load-path (append '("/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp") load-path))
   (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
@@ -395,9 +415,11 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(google-translate-default-source-language "en")
+ '(google-translate-default-target-language "ja")
  '(package-selected-packages
    (quote
-    (yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
+    (rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby sonic-pi osc helm-dash dash-at-point yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
