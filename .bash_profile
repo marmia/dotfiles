@@ -3,6 +3,7 @@ export PS1='$ '
 
 # Path
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
+export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:/Applications/LilyPond.app/Contents/Resources/bin
 
 # pyenv settings
