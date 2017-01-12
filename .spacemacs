@@ -403,11 +403,14 @@ you should place your code here."
   (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
+  ;; org-babel
+  (setq org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
      (emacs-lisp . t)
      (python t)
+     (ruby t)
      (sh t)
      (org t)
      (lilypond t)))
