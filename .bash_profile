@@ -12,9 +12,10 @@ export PATH="${PYENV_ROOT}/bin:$PATH"
 eval "$(pyenv init -)"
 
 # alias
-alias ll='ls -l'
-alias la='ls -a'
-alias lla='ls -la'
+alias ls='ls -FG'
+alias ll='ls -lFG'
+alias la='ls -aFG'
+alias lla='ls -laFG'
 alias em='emacs -nw'
 
 set -o vi
