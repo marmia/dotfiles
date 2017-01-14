@@ -336,6 +336,9 @@ you should place your code here."
   ;; org-agenda
   (setq org-agenda-files (append '("~/Dropbox/Notes/todo.org") (file-expand-wildcards "~/Dropbox/Notes/journal*.org")))
   (setq org-agenda-window-setup 'current-window)
+  (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
+    "," 'org-agenda-tree-to-indirect-buffer)
+  )
 
   ;; org-capture
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
@@ -432,11 +435,6 @@ you should place your code here."
      (lilypond t)
      (translate t)
      ))
-
-  ;; Key Bindings
-  (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-    "," 'org-agenda-tree-to-indirect-buffer)
-  )
 
 ;; Do not write anything past this comment. This is where Emacs will
 ;; auto-generate custom variable definitions.
