@@ -65,6 +65,7 @@ values."
      osc
      sonic-pi
      org-tree-slide
+     org-drill
      ob-translate
      )
    ;; A list of packages that cannot be updated.
@@ -435,6 +436,8 @@ you should place your code here."
      (translate t)
      ))
 
+  ;; org-drill
+  (require 'org-drill)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
