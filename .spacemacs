@@ -43,8 +43,6 @@ values."
      ;; git
      markdown
      org
-     (org   :variables
-            org-projectile-file "todo.org")
      (shell :variables
             shell-default-height 30
             shell-default-position 'bottom)
@@ -340,9 +338,6 @@ you should place your code here."
   ;; org-agenda
   (with-eval-after-load 'org-agenda
     (setq org-agenda-files (append '("~/Dropbox/Notes/todo.org") (file-expand-wildcards "~/Dropbox/Notes/journal*.org")))
-    (require 'org-projectile)
-    ;; (push (org-projectile:todo-files) org-agenda-files)
-    (setq org-agenda-files (append org-agenda-files (org-projectile:todo-files)))
     (setq org-agenda-window-setup 'current-window)
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
       "," 'org-agenda-tree-to-indirect-buffer)
