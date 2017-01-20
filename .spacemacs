@@ -353,15 +353,6 @@ you should place your code here."
            "* TODO %?\n %i\n %a")
           ))
 
-  ;; org-mode header height
-  (custom-set-faces
-   '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
-   '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
-   '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
-   '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
-   '(org-level-5 ((t (:inherit outline-5 :height 1.0))))
-   )
-
   ;; Archive All Done Item
   (defun org-archive-all-done-item ()
     "Archive all item that have with prefix DONE."
@@ -393,9 +384,8 @@ you should place your code here."
   ;; google-translate.el
   (require 'google-translate)
   (global-set-key [(C x) (C t)] 'google-translate-at-point)
-  (custom-set-variables
-   '(google-translate-default-source-language "en")
-   '(google-translate-default-target-language "ja"))
+  (setq google-translate-default-source-language "en")
+  (setq google-translate-default-target-language "ja")
 
   ;; popwin.el
   (require 'popwin)
@@ -459,8 +449,6 @@ you should place your code here."
  '(ansi-color-names-vector
    ["#272b34" "#c60013" "#8cc610" "#eea806" "#088afb" "#ec3691" "#1ee079" "#f6f2f3"])
  '(evil-want-Y-yank-to-eol nil)
- '(google-translate-default-source-language "en")
- '(google-translate-default-target-language "ja")
  '(package-selected-packages
    (quote
     (mwim elscreen ob-translate org-tree-slide adoc-mode markup-faces molokai-theme farmhouse-theme darkmine-theme afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby sonic-pi osc helm-dash dash-at-point yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
