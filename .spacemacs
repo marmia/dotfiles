@@ -332,6 +332,9 @@ you should place your code here."
   (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
   (setq nlinum-format "%5d ")
 
+  ;; page-ext.el --- extended page handling commands
+  (require 'page-ext)
+
   ;; org-mode
   (setq org-startup-indented t)
 
