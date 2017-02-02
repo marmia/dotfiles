@@ -17,5 +17,7 @@ alias ll='ls -lFG'
 alias la='ls -aFG'
 alias lla='ls -laFG'
 alias em='emacs -nw'
+alias vi='nvim'
+alias vim='nvim'
 
 set -o vi
