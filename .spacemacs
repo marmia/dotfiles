@@ -67,6 +67,7 @@ values."
      sonic-pi
      org-tree-slide
      ob-translate
+     cypher-mode
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
