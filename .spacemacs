@@ -342,7 +342,7 @@ you should place your code here."
 
   ;; org-agenda
   (with-eval-after-load 'org-agenda
-    (setq org-agenda-files (append '("~/Dropbox/Notes/todo.org") (file-expand-wildcards "~/Dropbox/Notes/journal*.org")))
+    (setq org-agenda-files '("~/Dropbox/Notes"))
     (setq org-agenda-window-setup 'current-window)
     (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
       "," 'org-agenda-tree-to-indirect-buffer)
@@ -353,9 +353,13 @@ you should place your code here."
   (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Notes/journal_%Y%m.org"))
   (setq org-capture-templates
         '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
-           "* %?\n%i\n%a\n\nEntered on %T\n")
+           "* %?\n%i\nEntered on %T\n")
+          ("b" "Bookmarks" entry (file "~/Dropbox/Notes/bookmarks.org")
+           "* %?\n %i\n")
           ("t" "Todo" entry (file+headline "~/Dropbox/Notes/todo.org" "Inbox")
-           "* TODO %?\n %i\n %a")
+           "* TODO %?\n %i\n")
+          ("w" "Wish List" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Inbox")
+           "* %?\n %i\n")
           ))
 
   ;; Archive All Done Item
