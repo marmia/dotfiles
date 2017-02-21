@@ -5,6 +5,7 @@ export PS1='$ '
 export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
 export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:/Applications/LilyPond.app/Contents/Resources/bin
+export PATH=${PATH}:"/Applications/Neo4j Community Edition 3.1.1.app/Contents/Resources/app/bin"
 
 # pyenv settings
 export PYENV_ROOT="${HOME}/.pyenv"
@@ -17,5 +18,7 @@ alias ll='ls -lFG'
 alias la='ls -aFG'
 alias lla='ls -laFG'
 alias em='emacs -nw'
+alias vi='nvim'
+alias vim='nvim'
 
 set -o vi
