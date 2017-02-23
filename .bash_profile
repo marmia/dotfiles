@@ -7,6 +7,11 @@ export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:/Applications/LilyPond.app/Contents/Resources/bin
 export PATH=${PATH}:"/Applications/Neo4j Community Edition 3.1.1.app/Contents/Resources/app/bin"
 
+# Bash History
+export HISTFILESIZE=10000
+export HISTCONTROL=erasedups
+export HISTIGNORE=?:??:???:????:?????:history:ls*:mkdir*:rm*
+
 # pyenv settings
 export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:$PATH"
