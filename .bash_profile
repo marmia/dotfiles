@@ -10,7 +10,7 @@ export PATH=${PATH}:"/Applications/Neo4j Community Edition 3.1.1.app/Contents/Re
 # Bash History
 export HISTFILESIZE=10000
 export HISTCONTROL=erasedups
-export HISTIGNORE=?:??:???:????:?????:history:ls*:mkdir*:rm*
+export HISTIGNORE=?:??:???:????:?????:history:ls*:mkdir*:rm*:cd*
 
 # pyenv settings
 export PYENV_ROOT="${HOME}/.pyenv"
@@ -25,5 +25,6 @@ alias lla='ls -laFG'
 alias em='emacs -nw'
 alias vi='nvim'
 alias vim='nvim'
+alias fd='cd "$(find . -type d | peco)"'
 
 set -o vi
