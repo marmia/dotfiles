@@ -432,19 +432,23 @@ you should place your code here."
   (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
+  ;; ditaa
+  (setq org-ditaa-jar-path "/Library/Java/Extensions/ditaa0_9.jar")
+
   ;; org-babel
   (setq org-confirm-babel-evaluate nil)
   (org-babel-do-load-languages
    'org-babel-load-languages
    '(
      (emacs-lisp . t)
-     (clojure t)
-     (python t)
-     (ruby t)
-     (sh t)
-     (org t)
-     (lilypond t)
-     (translate t)
+     (clojure . t)
+     (python . t)
+     (ruby . t)
+     (sh . t)
+     (org . t)
+     (lilypond . t)
+     (translate . t)
+     (ditaa . t)
      ))
   )
 
