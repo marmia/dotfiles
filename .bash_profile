@@ -17,6 +17,10 @@ export PYENV_ROOT="${HOME}/.pyenv"
 export PATH="${PYENV_ROOT}/bin:$PATH"
 eval "$(pyenv init -)"
 
+# ruby settings
+export PATH="$HOME/.rbenv/bin:$PATH"
+eval "$(rbenv init -)"
+
 # alias
 alias ls='ls -FG'
 alias ll='ls -lFG'
