@@ -350,15 +350,22 @@ you should place your code here."
 
   ;; org-capture
   (add-hook 'org-capture-mode-hook 'delete-other-windows)
-  (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Notes/journal_%Y%m.org"))
+  (defun org-capture-journal-filename () (format-time-string "~/Dropbox/Notes/journal.org"))
   (setq org-capture-templates
-        '(("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
+        '(
+          ("j" "Journal Entry" entry (file+datetree (org-capture-journal-filename))
            "* %?\n%i\nEntered on %T\n")
-          ("b" "Bookmarks" entry (file "~/Dropbox/Notes/bookmarks.org")
+          ("i" "IT Tips" entry (file "~/Dropbox/Notes/it-tips.org")
            "* %?\n %i\n")
-          ("t" "Todo" entry (file+headline "~/Dropbox/Notes/todo.org" "Inbox")
-           "* TODO %?\n %i\n")
-          ("w" "Wish List" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Inbox")
+          ("b" "Wish : Book" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Book")
+           "* %?\n %i\n")
+          ("m" "Wish : Music" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Music")
+           "* %?\n %i\n")
+          ("v" "Wish Movie" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Movie")
+           "* %?\n %i\n")
+          ("l" "Wish : Life" entry (file+headline "~/Dropbox/Notes/wishlist.org" "Life")
+           "* %?\n %i\n")
+          ("w" "WEB Bookmarks" entry (file "~/Dropbox/Notes/bookmarks.org")
            "* %?\n %i\n")
           ))
 
