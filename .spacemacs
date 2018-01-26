@@ -341,31 +341,6 @@ you should place your code here."
   ;; org-mode
   (setq org-startup-indented t)
 
-  ;; org-agenda
-  (with-eval-after-load 'org-agenda
-    (setq org-agenda-files '("~/Dropbox/Notes/Docs"))
-    (setq org-agenda-window-setup 'current-window)
-    (spacemacs/set-leader-keys-for-major-mode 'org-agenda-mode
-      "," 'org-agenda-tree-to-indirect-buffer)
-  )
-
-  ;; org-capture
-  (setq org-capture-templates
-        '(
-          ("j" "Journal Entry" entry (file+datetree "~/Dropbox/Notes/Docs/journal.org")
-           "* %?\n%i\nEntered on %T\n")
-          ("i" "IT Tips" entry (file "~/Dropbox/Notes/Docs/it-tips.org")
-           "* %?\n %i\n")
-          ("b" "Wish : Book" entry (file+headline "~/Dropbox/Notes/Docs/wishlist.org" "Book")
-           "* %?\n %i\n")
-          ("m" "Wish : Music" entry (file+headline "~/Dropbox/Notes/Docs/wishlist.org" "Music")
-           "* %?\n %i\n")
-          ("v" "Wish Movie" entry (file+headline "~/Dropbox/Notes/Docs/wishlist.org" "Movie")
-           "* %?\n %i\n")
-          ("w" "WEB Bookmarks" entry (file "~/Dropbox/Notes/Docs/bookmarks.org")
-           "* %?\n %i\n")
-          ))
-
   ;; tabbar
   (global-set-key (kbd "C-q")'tabbar-forward-tab)
   (global-set-key (kbd "C-S-q")'tabbar-backward-tab)
