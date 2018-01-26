@@ -43,7 +43,7 @@ values."
      emacs-lisp
      ;; git
      markdown
-     org
+     (org :variables org-startup-indented t)
      (ibuffer :variables ibuffer-group-buffers-by 'projects)
      (shell :variables
             shell-default-height 30
@@ -337,9 +337,6 @@ you should place your code here."
 
   ;; page-ext.el --- extended page handling commands
   (require 'page-ext)
-
-  ;; org-mode
-  (setq org-startup-indented t)
 
   ;; tabbar
   (global-set-key (kbd "C-q")'tabbar-forward-tab)
