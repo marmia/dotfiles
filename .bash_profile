@@ -30,5 +30,7 @@ alias em='emacs -nw'
 alias vi='nvim'
 alias vim='nvim'
 alias fd='cd "$(find . -type d | peco)"'
+alias ffmpeg='/usr/local/bin/ffmpeg'
+alias ff='/usr/local/bin/ffmpeg'
 
 set -o vi
