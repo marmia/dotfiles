@@ -6,6 +6,7 @@ export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
 export PATH=${PATH}:${HOME}/bin
 export PATH=${PATH}:/Applications/LilyPond.app/Contents/Resources/bin
 export PATH=${PATH}:"/Applications/Neo4j Community Edition 3.1.1.app/Contents/Resources/app/bin"
+export PATH=${PATH}:${HOME}/.local/bin
 
 # Bash History
 export HISTFILESIZE=10000
