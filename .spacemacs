@@ -53,12 +53,16 @@ values."
      ;; version-control
      python
      ruby
+     haskell
      clojure
      vimscript
      asciidoc
      nlinum
      dash
      tabbar
+     (supercollider :variables
+                    sclang-show-workspace-on-startup nil
+                    sclang-eval-line-forward nil)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -71,6 +75,8 @@ values."
      org-tree-slide
      ob-translate
      cypher-mode
+     tidal
+     mpv
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -335,26 +341,19 @@ you should place your code here."
   (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
   (setq nlinum-format "%5d ")
 
+  ;; key bind : delete other window
+  (global-set-key (kbd "C-x o") 'delete-other-windows)
+
+  ;; org-agenda
+  (setq org-agenda-files '("~/Dropbox/Notes/Docs/issue.org"))
+
   ;; page-ext.el --- extended page handling commands
   (require 'page-ext)
 
   ;; tabbar
+  (setq tabbar-buffer-groups-function nil)
   (global-set-key (kbd "C-q")'tabbar-forward-tab)
   (global-set-key (kbd "C-S-q")'tabbar-backward-tab)
-
-  ;; Archive All Done Item
-  (defun org-archive-all-done-item ()
-    "Archive all item that have with prefix DONE."
-    (interactive)
-    (save-excursion
-      (show-all)
-      (goto-char (point-min))
-      (while (search-forward-regexp "^[\\*]+ DONE" nil t)
-        (if (search-backward-regexp "^[\\*]+ Archived Tasks" nil t)
-            (goto-char (point-max))
-          (org-advertized-archive-subtree)))
-      (message "Archive finished")
-      (org-display-all-todo-item)))
 
   ;; org-tree-slide
   (require 'org-tree-slide)
@@ -381,6 +380,30 @@ you should place your code here."
   (setq display-buffer-function 'popwin:display-buffer)
   (setq popwin:popup-window-position 'bottom)
   (push '("*Google Translate*") popwin:special-display-config)
+
+  ;; To create a mpv: link type that is completely analogous to file:
+  (org-add-link-type "mpv" #'mpv-play)
+  (defun org-mpv-complete-link (&optional arg)
+    (replace-regexp-in-string
+     "file:" "mpv:"
+     (org-file-complete-link arg)
+     t t))
+
+  ;; seek to the position of a timestamp when pressing /RET/ in an org buffer:
+  (add-hook 'org-open-at-point-functions #'mpv-seek-to-position-at-point)
+
+  ;; mpv keybindings
+  (global-set-key (kbd "C-SPC") 'mpv-pause)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "i m" 'mpv-insert-playback-position)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "C-k" 'mpv-kill)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "<left>" 'mpv-seek-backward)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "<right>" 'mpv-seek-forward)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "[" 'mpv-speed-decrease)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "]" 'mpv-speed-increase)
+
+  ;; SuperCollider
+  (add-hook 'sclang-mode-hook 'turn-on-smartparens-mode)
+  (sclang-use-post-buffer-right-split)
 
   ;; Sonic Pi
   (require 'sonic-pi)
@@ -412,6 +435,15 @@ you should place your code here."
   (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
   (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
+  ;; TidalCycles
+  ;;(load-file "~/.emacs.d/private/local/tidal.el")
+  (require 'tidal)
+  (setq tidal-interpreter "/usr/local/bin/stack")
+  (setq tidal-interpreter-arguments
+        (list "repl"
+              "--ghci-options=-XOverloadedStrings"
+              ))
+
   ;; ditaa
   (setq org-ditaa-jar-path "/Library/Java/Extensions/ditaa0_9.jar")
 
@@ -424,14 +456,24 @@ you should place your code here."
      (clojure . t)
      (python . t)
      (ruby . t)
-     (sh . t)
+     (haskell . t)
+     (shell . t)
      (org . t)
      (lilypond . t)
      (translate . t)
      (dot . t)
      (ditaa . t)
      (gnuplot . t)
+     (sclang . t)
      ))
+
+  ;; mmm-mode
+  ;; (require 'mmm-mode)
+  ;; (setq mmm-global-mode 'maybe)
+  ;; (mmm-add-mode-ext-class 'org-mode nil 'org-tidal)
+  ;; (mmm-add-mode-ext-class 'org-mode nil 'org-sonic-pi)
+  ;; (mmm-add-group 'org-tidal '((tidal-src-block :submode tidal-mode :face org-block :front "#\\+BEGIN_SRC tidal.*\n" :back "#\\+END_SRC")))
+  ;; (mmm-add-group 'org-sonic-pi '((sonic-pi-src-block :submode sonic-pi-mode :face org-block :front "#\\+BEGIN_SRC sonic-pi.*\n" :back "#\\+END_SRC"))) 
 
   ;; org-drill
   (require 'org-drill)
@@ -460,7 +502,7 @@ you should place your code here."
      (wl . wl-other-frame))))
  '(package-selected-packages
    (quote
-    (org-mime hl-anything org-category-capture dash-functional tabbar ag ibuffer-projectile winum unfill fuzzy clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider seq queue clojure-mode mwim ob-translate org-tree-slide adoc-mode markup-faces molokai-theme farmhouse-theme darkmine-theme afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby sonic-pi osc helm-dash dash-at-point yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
+    (mpv names tidal intero flycheck hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode org-mime hl-anything org-category-capture dash-functional tabbar ag ibuffer-projectile winum unfill fuzzy clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider seq queue clojure-mode mwim ob-translate org-tree-slide adoc-mode markup-faces molokai-theme farmhouse-theme darkmine-theme afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby sonic-pi osc helm-dash dash-at-point yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(paradox-github-token t)
  '(tabbar-separator (quote (0.5)))
  '(vc-annotate-background nil)
