@@ -54,11 +54,7 @@ values."
      python
      ruby
      haskell
-     clojure
-     vimscript
-     asciidoc
      nlinum
-     dash
      tabbar
      (supercollider :variables
                     sclang-show-workspace-on-startup nil
@@ -72,7 +68,6 @@ values."
    '(
      osc
      sonic-pi
-     org-tree-slide
      ob-translate
      cypher-mode
      tidal
@@ -150,19 +145,13 @@ values."
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
    dotspacemacs-themes '(spacemacs-dark
-                         spacemacs-light
-                         afternoon
-                         darkmine
-                         deeper-blue
-                         farmhouse-dark
-                         molokai
-                         )
+                         spacemacs-light)
    ;; If non nil the cursor color matches the state color in GUI Emacs.
    dotspacemacs-colorize-cursor-according-to-state t
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Ricty Diminished Discord"
-                               :size 16
+                               :size 14
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -275,8 +264,18 @@ values."
    ;; scrolling overrides the default behavior of Emacs which recenters point
    ;; when it reaches the top or bottom of the screen. (default t)
    dotspacemacs-smooth-scrolling t
-   ;; If non nil line numbers are turned on in all `prog-mode' and `text-mode'
-   ;; derivatives. If set to `relative', also turns on relative line numbers.
+   ;; Control line numbers activation.
+   ;; If set to `t' or `relative' line numbers are turned on in all `prog-mode' and
+   ;; `text-mode' derivatives. If set to `relative', line numbers are relative.
+   ;; This variable can also be set to a property list for finer control:
+   ;; '(:relative nil
+   ;;   :disabled-for-modes dired-mode
+   ;;                       doc-view-mode
+   ;;                       markdown-mode
+   ;;                       org-mode
+   ;;                       pdf-view-mode
+   ;;                       text-mode
+   ;;   :size-limit-kb 1000)
    ;; (default nil)
    dotspacemacs-line-numbers t
    ;; Code folding method. Possible values are `evil' and `origami'.
@@ -330,7 +329,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; Window size
-  (setq default-frame-alist '((width . 155) (height . 48)))
+  (setq default-frame-alist '((width . 170) (height . 48)))
 
   ;; Number of recent list : A nil value means to save the whole list.
   (setq recentf-max-saved-items nil)
@@ -345,29 +344,12 @@ you should place your code here."
   (global-set-key (kbd "C-x o") 'delete-other-windows)
 
   ;; org-agenda
-  (setq org-agenda-files '("~/Dropbox/Notes/Docs/issue.org"))
-
-  ;; page-ext.el --- extended page handling commands
-  (require 'page-ext)
+  (setq org-agenda-files '("~/Dropbox/Notes/Docs/todo.org"))
 
   ;; tabbar
   (setq tabbar-buffer-groups-function nil)
   (global-set-key (kbd "C-q")'tabbar-forward-tab)
   (global-set-key (kbd "C-S-q")'tabbar-backward-tab)
-
-  ;; org-tree-slide
-  (require 'org-tree-slide)
-  (when (require 'org-tree-slide nil t)
-    (org-tree-slide-simple-profile))
-  (setq org-tree-slide-modeline-display 'outside) ;; outside or lighter
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "p" 'org-tree-slide-mode)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "0" 'org-tree-slide-content)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "j" 'org-tree-slide-move-next-tree)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "k" 'org-tree-slide-move-previous-tree)
 
   ;; google-translate.el
   (require 'google-translate)
@@ -382,6 +364,7 @@ you should place your code here."
   (push '("*Google Translate*") popwin:special-display-config)
 
   ;; To create a mpv: link type that is completely analogous to file:
+  (require 'org)
   (org-add-link-type "mpv" #'mpv-play)
   (defun org-mpv-complete-link (&optional arg)
     (replace-regexp-in-string
@@ -453,7 +436,6 @@ you should place your code here."
    'org-babel-load-languages
    '(
      (emacs-lisp . t)
-     (clojure . t)
      (python . t)
      (ruby . t)
      (haskell . t)
@@ -465,6 +447,7 @@ you should place your code here."
      (ditaa . t)
      (gnuplot . t)
      (sclang . t)
+     (sonic-pi . t)
      ))
 
   ;; mmm-mode
@@ -476,7 +459,7 @@ you should place your code here."
   ;; (mmm-add-group 'org-sonic-pi '((sonic-pi-src-block :submode sonic-pi-mode :face org-block :front "#\\+BEGIN_SRC sonic-pi.*\n" :back "#\\+END_SRC"))) 
 
   ;; org-drill
-  (require 'org-drill)
+  ;; (require 'org-drill)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -502,6 +485,10 @@ you should place your code here."
      (wl . wl-other-frame))))
  '(package-selected-packages
    (quote
+<<<<<<< HEAD
+    (tabbar ob-translate tidal sonic-pi osc mpv cypher-mode yapfify xterm-color unfill smeargle shell-pop rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim multi-term mmm-mode minitest markdown-toc markdown-mode magit-gitflow live-py-mode intero flycheck ibuffer-projectile hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help cython-mode company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda company cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+ '(tabbar-separator (quote (0.5))))
+=======
     (smeargle orgit magit-gitflow helm-gitignore gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link evil-magit magit magit-popup git-commit ghub with-editor mpv names tidal intero flycheck hlint-refactor hindent helm-hoogle haskell-snippets company-ghci company-ghc ghc haskell-mode company-cabal cmm-mode org-mime hl-anything org-category-capture dash-functional tabbar ag ibuffer-projectile winum unfill fuzzy clojure-snippets clj-refactor inflections edn multiple-cursors paredit peg cider-eval-sexp-fu cider seq queue clojure-mode mwim ob-translate org-tree-slide adoc-mode markup-faces molokai-theme farmhouse-theme darkmine-theme afternoon-theme rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake minitest chruby bundler inf-ruby sonic-pi osc helm-dash dash-at-point yapfify pyvenv pytest pyenv-mode py-isort pip-requirements live-py-mode hy-mode helm-pydoc cython-mode company-anaconda anaconda-mode pythonic helm-company helm-c-yasnippet company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete xterm-color shell-pop multi-term eshell-z eshell-prompt-extras esh-help nlinum-relative nlinum vimrc-mode dactyl-mode org-projectile pcache org-present org org-pomodoro alert log4e gntp org-download mmm-mode markdown-toc markdown-mode htmlize gnuplot gh-md ws-butler window-numbering which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint info+ indent-guide ido-vertical-mode hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation hide-comnt help-fns+ helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed dash aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async quelpa package-build spacemacs-theme)))
  '(paradox-github-token t)
  '(tabbar-separator (quote (0.5)))
@@ -535,6 +522,7 @@ you should place your code here."
        (not
         (facep
          (aref ansi-term-color-vector 0))))))
+>>>>>>> 871eb37... git layer 追加
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
