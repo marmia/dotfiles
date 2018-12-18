@@ -56,6 +56,7 @@ values."
      haskell
      nlinum
      tabbar
+     dash
      (supercollider :variables
                     sclang-show-workspace-on-startup nil
                     sclang-eval-line-forward nil)
@@ -72,6 +73,7 @@ values."
      cypher-mode
      tidal
      mpv
+     helm-org-rifle
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -342,6 +344,9 @@ you should place your code here."
 
   ;; key bind : delete other window
   (global-set-key (kbd "C-x o") 'delete-other-windows)
+
+  ;; helm-org-rifle
+  (require 'helm-org-rifle)
 
   ;; org-agenda
   (setq org-agenda-files '("~/Dropbox/Notes/Docs/todo.org"))
