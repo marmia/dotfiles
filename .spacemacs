@@ -428,9 +428,11 @@ you should place your code here."
   (require 'tidal)
   (setq tidal-interpreter "/usr/local/bin/stack")
   (setq tidal-interpreter-arguments
-        (list "repl"
+        (list "ghci"
               "--ghci-options=-XOverloadedStrings"
               ))
+  (setq tidal-boot-script-path
+        "~/.stack/global-project/.stack-work/install/x86_64-osx/lts-12.17/8.4.4/share/x86_64-osx-ghc-8.4.4/tidal-1.3.0/BootTidal.hs")
 
   ;; ditaa
   (setq org-ditaa-jar-path "/Library/Java/Extensions/ditaa0_9.jar")
@@ -453,6 +455,7 @@ you should place your code here."
      (gnuplot . t)
      (sclang . t)
      (sonic-pi . t)
+     (tidal . t)
      ))
 
   ;; mmm-mode
