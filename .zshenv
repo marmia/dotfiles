@@ -1,6 +1,3 @@
-# Path
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
-
 # zsh History
 export HISTFILESIZE=10000
 export HISTCONTROL=erasedups
@@ -10,8 +7,11 @@ export HISTIGNORE=?:??:???:????:?????:history:ls*:mkdir*:rm*:cd*
 autoload -U compinit && compinit
 zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}'
 
-# LS Color
-export LSCOLORS=gxfxcxdxbxegedabagacad
+# Do not read /etc/profile
+setopt no_global_rcs
+
+# Path
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
 
 # pyenv settings
 export PYENV_ROOT="${HOME}/.pyenv"
@@ -21,3 +21,4 @@ eval "$(pyenv init -)"
 # ruby settings
 export PATH="$HOME/.rbenv/bin:$PATH"
 eval "$(rbenv init -)"
+
