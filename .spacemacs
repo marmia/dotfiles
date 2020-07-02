@@ -43,11 +43,10 @@ values."
      emacs-lisp
      git
      markdown
-     (org :variables org-startup-indented t)
-     (ibuffer :variables ibuffer-group-buffers-by 'projects)
-     (shell :variables
-            shell-default-height 30
-            shell-default-position 'bottom)
+     org
+     ;; (shell :variables
+     ;;        shell-default-height 30
+     ;;        shell-default-position 'bottom)
      ;; spell-checking
      ;; syntax-checking
      ;; version-control
@@ -56,10 +55,6 @@ values."
      haskell
      nlinum
      tabbar
-     dash
-     (supercollider :variables
-                    sclang-show-workspace-on-startup nil
-                    sclang-eval-line-forward nil)
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -68,12 +63,11 @@ values."
    dotspacemacs-additional-packages
    '(
      osc
-     sonic-pi
      ob-translate
-     cypher-mode
-     tidal
      mpv
      helm-org-rifle
+     org-roam
+     uimage
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -153,7 +147,7 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("Ricty Diminished Discord"
-                               :size 14
+                               :size 16
                                :weight normal
                                :width normal
                                :powerline-scale 1.1)
@@ -320,7 +314,6 @@ executes.
  This function is mostly useful for variables that need to be set
 before packages are loaded. If you are unsure, you should try in setting them in
 `dotspacemacs/user-config' first."
-  (setq evil-escape-key-sequence "jk")
   )
 
 (defun dotspacemacs/user-config ()
@@ -332,111 +325,36 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; Window size
-  (setq default-frame-alist '((width . 170) (height . 48)))
+  (setq default-frame-alist '((width . 170) (height . 50)))
 
   ;; Number of recent list : A nil value means to save the whole list.
   (setq recentf-max-saved-items nil)
 
-  ;; Line number format
-  (setq nlinum-relative-redisplay-delay 0.1)      ;; delay
-  (setq nlinum-relative-current-symbol "")        ;; or "" for display current line number, or "0" "->" etc
-  (setq nlinum-relative-offset 0)                 ;; 1 if you want 0, 2, 3...
-  (setq nlinum-format "%5d ")
+  ;; Set escape keybinding
+  (setq evil-escape-key-sequence "jk")
+  (setq-default evil-escape-delay 0.2)
 
   ;; key bind : delete other window
   (global-set-key (kbd "C-x o") 'delete-other-windows)
 
+  ;; helm ag
+  (setq helm-ag-base-command "rg -ui --vimgrep --no-heading --hidden")
+
+  ;; python
+  (setq python-shell-completion-native-enable nil)
+
   ;; helm-org-rifle
   (require 'helm-org-rifle)
-
-  ;; org-agenda
-  (setq org-agenda-files '("~/Dropbox/Notes/Docs/todo.org"))
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "v" 'helm-org-rifle-directories)
 
   ;; tabbar
   (setq tabbar-buffer-groups-function nil)
   (global-set-key (kbd "C-q")'tabbar-forward-tab)
   (global-set-key (kbd "C-S-q")'tabbar-backward-tab)
 
-  ;; google-translate.el
-  (require 'google-translate)
-  (global-set-key [(C x) (C t)] 'google-translate-at-point)
+  ;; Google Translate
   (setq google-translate-default-source-language "en")
   (setq google-translate-default-target-language "ja")
-
-  ;; popwin.el
-  (require 'popwin)
-  (setq display-buffer-function 'popwin:display-buffer)
-  (setq popwin:popup-window-position 'bottom)
-  (push '("*Google Translate*") popwin:special-display-config)
-
-  ;; To create a mpv: link type that is completely analogous to file:
-  (require 'org)
-  (org-add-link-type "mpv" #'mpv-play)
-  (defun org-mpv-complete-link (&optional arg)
-    (replace-regexp-in-string
-     "file:" "mpv:"
-     (org-file-complete-link arg)
-     t t))
-
-  ;; seek to the position of a timestamp when pressing /RET/ in an org buffer:
-  (add-hook 'org-open-at-point-functions #'mpv-seek-to-position-at-point)
-
-  ;; mpv keybindings
-  (global-set-key (kbd "C-SPC") 'mpv-pause)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "i m" 'mpv-insert-playback-position)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "C-k" 'mpv-kill)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "<left>" 'mpv-seek-backward)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "<right>" 'mpv-seek-forward)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "[" 'mpv-speed-decrease)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "]" 'mpv-speed-increase)
-
-  ;; SuperCollider
-  (add-hook 'sclang-mode-hook 'turn-on-smartparens-mode)
-  (sclang-use-post-buffer-right-split)
-
-  ;; Sonic Pi
-  (require 'sonic-pi)
-  (setq sonic-pi-path "/usr/local/share/Sonic-Pi/")
-  (spacemacs/set-leader-keys-for-major-mode 'ruby-mode
-    "," 'sonic-pi-mode)
-  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
-    "j" 'sonic-pi-jack-in)
-  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
-    "b" 'sonic-pi-send-buffer)
-  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
-    "r" 'sonic-pi-send-region)
-  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
-    "s" 'sonic-pi-stop-all)
-  (spacemacs/set-leader-keys-for-major-mode 'sonic-pi-mode
-    "q" 'sonic-pi-quit)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "C-j" 'sonic-pi-jack-in)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "C-r" 'sonic-pi-send-region)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "C-." 'sonic-pi-stop-all)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode
-    "C-q" 'sonic-pi-quit)
-
-  ;; LilyPond mode
-  (setq load-path (append '("/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp") load-path))
-  (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
-  (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
-  (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
-
-  ;; TidalCycles
-  ;;(load-file "~/.emacs.d/private/local/tidal.el")
-  (require 'tidal)
-  (setq tidal-interpreter "/usr/local/bin/stack")
-  (setq tidal-interpreter-arguments
-        (list "ghci"
-              "--ghci-options=-XOverloadedStrings"
-              ))
-  (setq tidal-boot-script-path
-        "~/.stack/global-project/.stack-work/install/x86_64-osx/lts-12.17/8.4.4/share/x86_64-osx-ghc-8.4.4/tidal-1.3.0/BootTidal.hs")
-
-  ;; ditaa
-  (setq org-ditaa-jar-path "/Library/Java/Extensions/ditaa0_9.jar")
 
   ;; org-babel
   (setq org-confirm-babel-evaluate nil)
@@ -449,26 +367,10 @@ you should place your code here."
      (haskell . t)
      (shell . t)
      (org . t)
-     (lilypond . t)
      (translate . t)
      (dot . t)
-     (ditaa . t)
-     (gnuplot . t)
-     (sclang . t)
-     (sonic-pi . t)
-     (tidal . t)
      ))
 
-  ;; mmm-mode
-  ;; (require 'mmm-mode)
-  ;; (setq mmm-global-mode 'maybe)
-  ;; (mmm-add-mode-ext-class 'org-mode nil 'org-tidal)
-  ;; (mmm-add-mode-ext-class 'org-mode nil 'org-sonic-pi)
-  ;; (mmm-add-group 'org-tidal '((tidal-src-block :submode tidal-mode :face org-block :front "#\\+BEGIN_SRC tidal.*\n" :back "#\\+END_SRC")))
-  ;; (mmm-add-group 'org-sonic-pi '((sonic-pi-src-block :submode sonic-pi-mode :face org-block :front "#\\+BEGIN_SRC sonic-pi.*\n" :back "#\\+END_SRC"))) 
-
-  ;; org-drill
-  ;; (require 'org-drill)
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -480,15 +382,11 @@ you should place your code here."
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (posframe lv helm-org-rifle transient tidal sonic-pi osc ob-translate mpv cypher-mode tabbar yapfify xterm-color unfill smeargle shell-pop rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download nlinum-relative nlinum mwim multi-term mmm-mode minitest markdown-toc markdown-mode magit-gitflow live-py-mode intero flycheck ibuffer-projectile hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit magit-popup git-commit ghub treepy graphql with-editor eshell-z eshell-prompt-extras esh-help cython-mode company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda company cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile helm-mode-manager helm-make projectile pkg-info epl helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu highlight elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
+    (org-roam emacsql-sqlite3 emacsql uimage osc ob-translate mpv helm-org-rifle tabbar yapfify rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements nlinum-relative nlinum minitest live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent helm-pydoc helm-hoogle haskell-snippets cython-mode company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda cmm-mode chruby bundler inf-ruby anaconda-mode pythonic unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
  '(tabbar-separator (quote (0.5))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(org-level-1 ((t (:inherit outline-1 :height 1.0))))
- '(org-level-2 ((t (:inherit outline-2 :height 1.0))))
- '(org-level-3 ((t (:inherit outline-3 :height 1.0))))
- '(org-level-4 ((t (:inherit outline-4 :height 1.0))))
- '(org-level-5 ((t (:inherit outline-5 :height 1.0)))))
+ )
