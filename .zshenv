@@ -11,7 +11,7 @@ zstyle ':completion:*' matcher-list 'm:{[:lower:][:upper:]}={[:upper:][:lower:]}
 setopt no_global_rcs
 
 # Path
-export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:.
+export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${HOME}/Bin:.
 
 # pyenv settings
 export PYENV_ROOT="${HOME}/.pyenv"
