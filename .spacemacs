@@ -357,13 +357,25 @@ you should place your code here."
   (setq google-translate-default-source-language "en")
   (setq google-translate-default-target-language "ja")
 
+  ;; org-agenda
+  (setq org-agenda-files '(
+    "~/Documents/Org/roam/2020-my-goals.org"
+    "~/Documents/Org/roam/2020-schejule.org"
+  ))
+
   ;; org-roam
-  ;;(setq org-roam-directory "~/Documents/Notes/Org-Roam")
-  ;;(add-hook 'after-init-hook 'org-roam-mode)
-  ;;(spacemacs/set-leader-keys-for-major-mode 'org-mode "rr" 'org-roam)
-  ;;(spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-today)
-  ;;(spacemacs/set-leader-keys-for-major-mode 'org-mode "rf" 'org-roam-find-file)
-  ;;(spacemacs/set-leader-keys-for-major-mode 'org-mode "ri" 'org-roam-insert)
+  (setq org-roam-directory "~/Documents/Org/roam")
+  (add-hook 'after-init-hook 'org-roam-mode)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rr" 'org-roam)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-today)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rf" 'org-roam-find-file)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ri" 'org-roam-insert)
+
+  ;; LilyPond mode
+  (setq load-path (append '("/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp") load-path))
+  (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
+  (add-to-list 'auto-mode-alist '("\\.ly$" . LilyPond-mode))
+  (add-hook 'LilyPond-mode-hook (lambda () (turn-on-font-lock)))
 
   ;; org-babel
   (setq org-confirm-babel-evaluate nil)
@@ -377,6 +389,7 @@ you should place your code here."
      (shell . t)
      (org . t)
      (translate . t)
+     (lilypond . t)
      (dot . t)
      ))
 
