@@ -327,7 +327,7 @@ explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
   ;; Window size
-  (setq default-frame-alist '((width . 170) (height . 50)))
+  (setq default-frame-alist '((width . 175) (height . 43)))
 
   ;; Number of recent list : A nil value means to save the whole list.
   (setq recentf-max-saved-items nil)
