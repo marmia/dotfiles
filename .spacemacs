@@ -329,6 +329,10 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Emacs Command History
+  (setq history-delete-duplicates t)
+  (setq history-length 10)
+
   ;; Window size
   (setq default-frame-alist '((width . 175) (height . 43)))
 
