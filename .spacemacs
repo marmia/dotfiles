@@ -53,7 +53,6 @@ values."
      python
      ruby
      haskell
-     tabbar
      org-roam
      )
    ;; List of additional packages that will be installed without being
@@ -68,6 +67,8 @@ values."
      helm-org-rifle
      uimage
      doom-themes
+     centaur-tabs
+     all-the-icons
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -140,7 +141,9 @@ values."
    ;; List of themes, the first of the list is loaded when spacemacs starts.
    ;; Press <SPC> T n to cycle to the next theme in the list (works great
    ;; with 2 themes variants, one dark and one light)
-   dotspacemacs-themes '(doom-one
+   dotspacemacs-themes '(doom-dark+
+                         doom-dracula
+                         doom-one
                          deeper-blue
                          spacemacs-dark
                          spacemacs-light)
@@ -336,6 +339,23 @@ you should place your code here."
   (setq evil-escape-key-sequence "jk")
   (setq-default evil-escape-delay 0.2)
 
+  ;; icons
+  (require 'all-the-icons)
+
+  ;; centaur-tabs
+  (setq centaur-tabs-style "bar")
+  (setq centaur-tabs-height 32)
+  (setq centaur-tabs-set-icons t)
+  (setq centaur-tabs-set-close-button nil)
+  (setq centaur-tabs-set-bar 'under)
+  (setq centaur-tabs-set-modified-marker t)
+  (setq centaur-tabs-modified-marker "*")
+  (setq centaur-tabs-cycle-scope 'tabs)
+  (centaur-tabs-mode t)
+  (centaur-tabs-group-by-projectile-project)
+  (global-set-key (kbd "C-q") 'centaur-tabs-forward)
+  (global-set-key (kbd "C-S-q")  'centaur-tabs-backward)
+
   ;; key bind : delete other window
   (global-set-key (kbd "C-x o") 'delete-other-windows)
 
@@ -348,11 +368,6 @@ you should place your code here."
   ;; helm-org-rifle
   (require 'helm-org-rifle)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "v" 'helm-org-rifle-directories)
-
-  ;; tabbar
-  (setq tabbar-buffer-groups-function nil)
-  (global-set-key (kbd "C-q")'tabbar-forward-tab)
-  (global-set-key (kbd "C-S-q")'tabbar-backward-tab)
 
   ;; Google Translate
   (setq google-translate-default-source-language "en")
@@ -415,7 +430,7 @@ you should place your code here."
      (file . find-file)
      (wl . wl-other-frame)))
  '(package-selected-packages
-   '(doom-themes org-roam emacsql-sqlite3 emacsql uimage osc ob-translate mpv helm-org-rifle tabbar yapfify rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements minitest live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent helm-pydoc helm-hoogle haskell-snippets cython-mode company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda cmm-mode chruby bundler inf-ruby anaconda-mode pythonic unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
+   '(all-the-icons memoize centaur-tabs doom-themes org-roam emacsql-sqlite3 emacsql uimage osc ob-translate mpv helm-org-rifle tabbar yapfify rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements minitest live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent helm-pydoc helm-hoogle haskell-snippets cython-mode company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda cmm-mode chruby bundler inf-ruby anaconda-mode pythonic unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
  '(safe-local-variable-values '((org-src-preserve-indentation) (eval require 'ol-info)))
  '(tabbar-separator '(0.5)))
 (custom-set-faces
