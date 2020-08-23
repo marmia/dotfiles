@@ -375,6 +375,11 @@ you should place your code here."
   ;; python
   (setq python-shell-completion-native-enable nil)
 
+  ;; org-mode
+  (setq org-startup-indented t)
+  (setq org-startup-folded t)
+  (setq org-startup-with-inline-images t)
+
   ;; helm-org-rifle
   (require 'helm-org-rifle)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "v" 'helm-org-rifle-directories)
