@@ -380,6 +380,7 @@ you should place your code here."
   (setq org-startup-indented t)
   (setq org-startup-folded t)
   (setq org-startup-with-inline-images t)
+  (setq org-download-image-dir "~/Pictures/Download")
 
   ;; helm-org-rifle
   (require 'helm-org-rifle)
