@@ -388,6 +388,11 @@ you should place your code here."
   ;; Google Translate
   (setq google-translate-default-source-language "en")
   (setq google-translate-default-target-language "ja")
+  (setq google-translate-pop-up-buffer-set-focus t)
+  (global-set-key (kbd "C-c t") 'google-translate-at-point)
+  (global-set-key (kbd "C-c T") 'google-translate-query-translate)
+  (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse)
+  (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
 
   ;; org-agenda
   (setq org-agenda-files '(
