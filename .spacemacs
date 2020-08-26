@@ -405,9 +405,9 @@ you should place your code here."
   (setq org-roam-directory "~/Documents/Org/roam")
   (add-hook 'after-init-hook 'org-roam-mode)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rr" 'org-roam)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-today)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rf" 'org-roam-find-file)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "ri" 'org-roam-insert)
+  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-dailies-today)
 
   ;; bm
   (require 'bm)
