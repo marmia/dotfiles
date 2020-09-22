@@ -54,7 +54,7 @@ values."
      ruby
      haskell
      org-roam
-     japanese
+     ;;japanese
      )
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -62,16 +62,16 @@ values."
    ;; configuration in `dotspacemacs/user-config'.
    dotspacemacs-additional-packages
    '(
-     osc
-     ob-translate
-     mpv
-     helm-org-rifle
-     uimage
      doom-themes
-     centaur-tabs
-     all-the-icons
+     ob-translate
      bm
      helm-bm
+     osc
+     uimage
+     all-the-icons
+     centaur-tabs
+     ;;helm-org-rifle
+     ;;mpv
      )
    ;; A list of packages that cannot be updated.
    dotspacemacs-frozen-packages '()
@@ -155,6 +155,8 @@ values."
    ;; Default font, or prioritized list of fonts. `powerline-scale' allows to
    ;; quickly tweak the mode-line size to make separators look not too crappy.
    dotspacemacs-default-font '("NasuM"
+                               ;;"Noto Sans Mono CJK JP"
+                               ;;"Ricty Diminished"
                                :size 16
                                :weight normal
                                :width normal
@@ -281,7 +283,9 @@ values."
    ;;                       text-mode
    ;;   :size-limit-kb 1000)
    ;; (default nil)
-   dotspacemacs-line-numbers t
+   ;; dotspacemacs-line-numbers t
+   dotspacemacs-line-numbers '(:relative nil
+                               :size-limit-kb 100)
    ;; Code folding method. Possible values are `evil' and `origami'.
    ;; (default 'evil)
    dotspacemacs-folding-method 'evil
@@ -336,19 +340,19 @@ This is the place where most of your configurations should be done. Unless it is
 explicitly specified that a variable should be set before a package is loaded,
 you should place your code here."
 
+  ;; Window size
+  (setq default-frame-alist '((width . 175) (height . 43)))
+
   ;; Emacs Command History
   (setq history-delete-duplicates t)
   (setq history-length 10)
 
-  ;; Window size
-  (setq default-frame-alist '((width . 175) (height . 43)))
-
-  ;; Number of recent list : A nil value means to save the whole list.
-  (setq recentf-max-saved-items nil)
-
   ;; Set escape keybinding
   (setq evil-escape-key-sequence "jk")
   (setq-default evil-escape-delay 0.2)
+
+  ;; key bind : delete other window
+  (global-set-key (kbd "C-x o") 'delete-other-windows)
 
   ;; icons
   (require 'all-the-icons)
@@ -367,24 +371,18 @@ you should place your code here."
   (global-set-key (kbd "C-q") 'centaur-tabs-forward)
   (global-set-key (kbd "C-S-q")  'centaur-tabs-backward)
 
-  ;; key bind : delete other window
-  (global-set-key (kbd "C-x o") 'delete-other-windows)
-
   ;; helm ag
   (setq helm-ag-base-command "rg -ui --vimgrep --no-heading --hidden")
-
-  ;; python
-  (setq python-shell-completion-native-enable nil)
 
   ;; org-mode
   (setq org-startup-indented t)
   (setq org-startup-folded t)
   (setq org-startup-with-inline-images t)
   (setq org-download-image-dir "~/Pictures/Download")
+  (setq org-link-frame-setup '((file . find-file)))
 
-  ;; helm-org-rifle
-  (require 'helm-org-rifle)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "v" 'helm-org-rifle-directories)
+  ;; python
+  (setq python-shell-completion-native-enable nil)
 
   ;; Google Translate
   (setq google-translate-default-source-language "en")
@@ -395,12 +393,6 @@ you should place your code here."
   (global-set-key (kbd "C-c r") 'google-translate-at-point-reverse)
   (global-set-key (kbd "C-c R") 'google-translate-query-translate-reverse)
 
-  ;; org-agenda
-  (setq org-agenda-files '(
-    "~/Documents/Org/roam/2020-my-goals.org"
-    "~/Documents/Org/roam/2020-schejule.org"
-  ))
-
   ;; org-roam
   (setq org-roam-directory "~/Documents/Org/roam")
   (add-hook 'after-init-hook 'org-roam-mode)
@@ -408,6 +400,11 @@ you should place your code here."
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rf" 'org-roam-find-file)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "ri" 'org-roam-insert)
   (spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-dailies-today)
+
+  (setq org-roam-dailies-capture-templates '(("d" "daily" plain (function org-roam-capture--get-point) ""
+                                              :immediate-finish t
+                                              :file-name "dailies/%<%Y-%m-%d>"
+                                              :head "#+title: %<%Y-%m-%d (%a)> Diary\n#+todo: TODO(t) WAIT(w) | DONE(d) CANCEL(c)")))
 
   ;; bm
   (require 'bm)
@@ -445,7 +442,6 @@ you should place your code here."
      (lilypond . t)
      (dot . t)
      ))
-
   )
 
 ;; Do not write anything past this comment. This is where Emacs will
@@ -455,24 +451,11 @@ you should place your code here."
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["#242424" "#e5786d" "#95e454" "#cae682" "#8ac6f2" "#333366" "#ccaa8f" "#f6f3e8"])
- '(evil-want-Y-yank-to-eol nil)
- '(org-link-frame-setup
-   '((vm . vm-visit-folder-other-frame)
-     (vm-imap . vm-visit-imap-folder-other-frame)
-     (gnus . org-gnus-no-new-news)
-     (file . find-file)
-     (wl . wl-other-frame)))
  '(package-selected-packages
-   '(pangu-spacing japanese-holidays evil-tutor-ja ddskk cdb ccc avy-migemo migemo helm-bm bm all-the-icons memoize centaur-tabs doom-themes org-roam emacsql-sqlite3 emacsql uimage osc ob-translate mpv helm-org-rifle tabbar yapfify rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements minitest live-py-mode intero flycheck hy-mode dash-functional hlint-refactor hindent helm-pydoc helm-hoogle haskell-snippets cython-mode company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda cmm-mode chruby bundler inf-ruby anaconda-mode pythonic unfill smeargle orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode markdown-toc markdown-mode magit-gitflow magit-popup htmlize helm-gitignore helm-company helm-c-yasnippet gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient company-statistics company auto-yasnippet yasnippet ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump f dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async))
- '(safe-local-variable-values '((org-src-preserve-indentation) (eval require 'ol-info)))
- '(tabbar-separator '(0.5)))
+   '(org-roam emacsql-sqlite3 emacsql doom-themes doom-dark+-theme yapfify unfill smeargle rvm ruby-tools ruby-test-mode rubocop rspec-mode robe rbenv rake pyvenv pytest pyenv-mode py-isort pip-requirements orgit org-projectile org-category-capture org-present org-pomodoro alert log4e gntp org-mime org-download mwim mmm-mode minitest markdown-toc markdown-mode magit-gitflow magit-popup live-py-mode intero flycheck hy-mode dash-functional htmlize hlint-refactor hindent helm-pydoc helm-hoogle helm-gitignore helm-company helm-c-yasnippet haskell-snippets gnuplot gitignore-mode gitconfig-mode gitattributes-mode git-timemachine git-messenger git-link gh-md fuzzy evil-magit magit git-commit with-editor transient cython-mode company-statistics company-ghci company-ghc ghc haskell-mode company-cabal company-anaconda company cmm-mode chruby bundler inf-ruby auto-yasnippet yasnippet anaconda-mode pythonic ac-ispell auto-complete ws-butler winum which-key volatile-highlights vi-tilde-fringe uuidgen use-package toc-org spaceline powerline restart-emacs request rainbow-delimiters popwin persp-mode pcre2el paradox spinner org-plus-contrib org-bullets open-junk-file neotree move-text macrostep lorem-ipsum linum-relative link-hint indent-guide hydra lv hungry-delete hl-todo highlight-parentheses highlight-numbers parent-mode highlight-indentation helm-themes helm-swoop helm-projectile projectile pkg-info epl helm-mode-manager helm-make helm-flx helm-descbinds helm-ag google-translate golden-ratio flx-ido flx fill-column-indicator fancy-battery eyebrowse expand-region exec-path-from-shell evil-visualstar evil-visual-mark-mode evil-unimpaired f evil-tutor evil-surround evil-search-highlight-persist highlight evil-numbers evil-nerd-commenter evil-mc evil-matchit evil-lisp-state smartparens evil-indent-plus evil-iedit-state iedit evil-exchange evil-escape evil-ediff evil-args evil-anzu anzu evil goto-chg undo-tree eval-sexp-fu elisp-slime-nav dumb-jump dash s diminish define-word column-enforce-mode clean-aindent-mode bind-map bind-key auto-highlight-symbol auto-compile packed aggressive-indent adaptive-wrap ace-window ace-link ace-jump-helm-line helm avy helm-core popup async)))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(bm-persistent-face ((t (:background "dark cyan" :foreground "White")))))
