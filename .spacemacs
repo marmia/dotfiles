@@ -56,7 +56,11 @@ This function should only modify configuration layer settings."
      ;; version-control
      python
      org-roam
-     treemacs)
+     treemacs
+     (supercollider :variables
+                    sclang-show-workspace-on-startup nil
+                    sclang-eval-line-forward nil)
+     )
 
    ;; List of additional packages that will be installed without being
    ;; wrapped in a layer. If you need some configuration for these
@@ -599,6 +603,10 @@ before packages are loaded."
   (global-set-key (kbd "s-1") 'bm-previous)
   (global-set-key (kbd "s-2") 'bm-next)
 
+  ;; SuperCollider
+  (add-hook 'sclang-mode-hook 'turn-on-smartparens-mode)
+  (sclang-use-post-buffer-right-split)
+
   ;; LilyPond mode
   (setq load-path (append '("/Applications/LilyPond.app/Contents/Resources/share/emacs/site-lisp") load-path))
   (autoload 'LilyPond-mode "lilypond-mode" "LilyPond Editing Mode" t)
@@ -617,6 +625,7 @@ before packages are loaded."
      (shell . t)
      (org . t)
      (translate . t)
+     (sclang . t)
      (lilypond . t)
      (dot . t)
      ))
