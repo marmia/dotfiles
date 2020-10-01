@@ -72,11 +72,12 @@ This function should only modify configuration layer settings."
    dotspacemacs-additional-packages
    '(
      doom-themes
-     ob-translate
      bm
      osc
      all-the-icons
      centaur-tabs
+     ob-translate
+     ob-ipython
      )
 
    ;; A list of packages that cannot be updated.
@@ -620,6 +621,7 @@ before packages are loaded."
    '(
      (emacs-lisp . t)
      (python . t)
+     (ipython . t)
      (ruby . t)
      (haskell . t)
      (shell . t)
