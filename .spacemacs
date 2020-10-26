@@ -55,6 +55,7 @@ This function should only modify configuration layer settings."
      syntax-checking
      ;; version-control
      python
+     javascript
      org-roam
      treemacs
      (supercollider :variables
@@ -238,8 +239,8 @@ It should only modify the values of Spacemacs settings."
    dotspacemacs-colorize-cursor-according-to-state t
 
    ;; Default font or prioritized list of fonts.
-   dotspacemacs-default-font '("NasuM"
-                               ;;"Noto Sans Mono CJK JP"
+   dotspacemacs-default-font '(;;"NasuM"
+                               "Noto Sans Mono CJK JP"
                                ;;"Ricty Diminished"
                                :size 16
                                :weight normal
