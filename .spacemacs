@@ -604,7 +604,7 @@ before packages are loaded."
   (add-hook 'kill-emacs-hook '(lambda nil
                                 (bm-buffer-save-all)
                                 (bm-repository-save)))
-  (global-set-key (kbd "C-;") 'bm-toggle)
+  (global-set-key (kbd "C-:") 'bm-toggle)
   (global-set-key (kbd "s-1") 'bm-previous)
   (global-set-key (kbd "s-2") 'bm-next)
 
