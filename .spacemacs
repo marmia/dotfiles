@@ -560,10 +560,14 @@ before packages are loaded."
 
   ;; org-mode
   (setq org-startup-indented t)
-  (setq org-startup-folded t)
+  ;;(setq org-startup-folded t)
   (setq org-startup-with-inline-images t)
   (setq org-download-image-dir "~/Pictures/Download")
-  (setq org-link-frame-setup '((file . find-file)))
+  ;;(setq org-link-frame-setup '((file . find-file)))
+  (add-to-list 'org-structure-template-alist '("j" . "src translate :dest ja"))
+
+  ;; org-agenda
+  (setq org-agenda-files (file-expand-wildcards "~/Documents/Org/roam/agenda/*.org"))
 
     ;; python
   (setq python-shell-completion-native-enable nil)
