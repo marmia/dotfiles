@@ -535,9 +535,10 @@ before packages are loaded."
   (setq history-delete-duplicates t)
   (setq history-length 10)
 
-  ;; Set escape keybinding
+  ;; evil settings
   (setq evil-escape-key-sequence "jk")
   (setq-default evil-escape-delay 0.2)
+  (define-key evil-insert-state-map (kbd "C-d") 'backward-delete-char)
 
   ;; key bind : delete other window
   (global-set-key (kbd "C-x o") 'delete-other-windows)
@@ -584,12 +585,10 @@ before packages are loaded."
 
   ;; org-roam
   (setq org-roam-directory "~/Documents/Org/roam")
-  (add-hook 'after-init-hook 'org-roam-mode)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rr" 'org-roam)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rf" 'org-roam-find-file)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "ri" 'org-roam-insert)
-  (spacemacs/set-leader-keys-for-major-mode 'org-mode "rt" 'org-roam-dailies-today)
-
+  (define-key org-mode-map (kbd "s-f") 'org-roam-find-file)
+  (define-key org-mode-map (kbd "s-b") 'org-roam-switch-to-buffer)
+  (define-key org-mode-map (kbd "s-t") 'org-roam-dailies-today)
+  (define-key org-mode-map (kbd "s-y") 'org-roam-dailies-yesterday)
   (setq org-roam-dailies-capture-templates '(("d" "daily" plain (function org-roam-capture--get-point) ""
                                               :immediate-finish t
                                               :file-name "dailies/%<%Y-%m-%d>"
