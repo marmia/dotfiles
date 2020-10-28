@@ -589,6 +589,13 @@ before packages are loaded."
   (define-key org-mode-map (kbd "s-b") 'org-roam-switch-to-buffer)
   (define-key org-mode-map (kbd "s-t") 'org-roam-dailies-today)
   (define-key org-mode-map (kbd "s-y") 'org-roam-dailies-yesterday)
+
+  (setq org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
+                                      :file-name "%<%Y%m%d%H%M%S>-${slug}"
+                                      :head "#+title: ${title}\n#+roam_tags: "
+                                      "%?"
+                                      :unnarrowed t)))
+
   (setq org-roam-dailies-capture-templates '(("d" "daily" plain (function org-roam-capture--get-point) ""
                                               :immediate-finish t
                                               :file-name "dailies/%<%Y-%m-%d>"
