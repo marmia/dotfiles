@@ -47,7 +47,8 @@ This function should only modify configuration layer settings."
      ;; lsp
      markdown
      ;; multiple-cursors
-     org
+     (org :variables
+          org-enable-roam-support t)
      ;; (shell :variables
      ;;        shell-default-height 30
      ;;        shell-default-position 'bottom)
@@ -56,7 +57,6 @@ This function should only modify configuration layer settings."
      ;; version-control
      python
      javascript
-     org-roam
      treemacs
      (supercollider :variables
                     sclang-show-workspace-on-startup nil
