@@ -533,7 +533,7 @@ before packages are loaded."
   ;; Window size
   (setq default-frame-alist '((width . 175) (height . 43)))
 
-    ;; Emacs Command History
+  ;; Emacs Command History
   (setq history-delete-duplicates t)
   (setq history-length 10)
 
@@ -568,6 +568,7 @@ before packages are loaded."
   (setq org-startup-with-inline-images t)
   (setq org-download-image-dir "~/Pictures/Download")
   ;;(setq org-link-frame-setup '((file . find-file)))
+  (setq org-src-preserve-indentation t)
   (add-to-list 'org-structure-template-alist '("j" . "src translate :dest ja"))
 
   ;; org-agenda
