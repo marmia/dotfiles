@@ -512,7 +512,9 @@ If you are unsure, try setting them in `dotspacemacs/user-config' first."
   ;; bm
   (setq-default bm-buffer-persistence t)
   (setq bm-restore-repository-on-load t)
-  (setq bm-repository-file "~/.emacs.d/private/bm/bm-repository")
+  (setq bm-repository-file
+        (expand-file-name
+          (concat (getenv "HOME") "/.emacs.d/.bm-repository")))
   )
 
 (defun dotspacemacs/user-load ()
@@ -602,18 +604,111 @@ before packages are loaded."
                                               :head "#+title: %<%Y-%m-%d (%a)> Diary\n#+todo: TODO(t) WAIT(w) | DONE(d) CANCEL(c)")))
 
   ;; bm
-  (require 'bm)
-  (add-hook 'find-file-hook 'bm-buffer-restore)
-  (add-hook 'kill-buffer-hook 'bm-buffer-save)
-  (add-hook 'after-save-hook 'bm-buffer-save)
-  (add-hook 'after-revert-hook 'bm-buffer-restore)
-  (add-hook 'vc-before-checkin-hook 'bm-buffer-save)
-  (add-hook 'kill-emacs-hook '(lambda nil
-                                (bm-buffer-save-all)
-                                (bm-repository-save)))
-  (global-set-key (kbd "C-:") 'bm-toggle)
-  (global-set-key (kbd "s-1") 'bm-previous)
-  (global-set-key (kbd "s-2") 'bm-next)
+  (when (require 'bm nil t)
+    (global-set-key (kbd "C-:") 'my-toggle-bm)
+    (global-set-key (kbd "s-1") 'my-bm-previous)
+    (global-set-key (kbd "s-2") 'my-bm-next)
+    (add-hook 'find-file-hook #'bm-buffer-restore)
+
+    (with-eval-after-load "ivy"
+      (global-set-key (kbd "s-3") 'counsel-bm))
+
+    (with-eval-after-load "bm"
+      (setq bm-cycle-all-buffers t)
+
+      (unless noninteractive
+        (bm-repository-load)
+        (add-hook 'kill-buffer-hook 'bm-buffer-save)
+        (add-hook 'after-save-hook 'bm-buffer-save)
+        (add-hook 'after-revert-hook 'bm-buffer-restore)
+        (add-hook 'kill-emacs-hook #'my-bm-save-all))
+
+      (defun ad:bm-show-mode ()
+        "Enable truncate mode when showing bm list."
+        (toggle-truncate-lines 1))
+      (advice-add 'bm-show-mode :after #'ad:bm-show-mode)
+
+      (defun my-bm-save-all ()
+        (bm-buffer-save-all)
+        (bm-repository-save))
+
+      (defun my-toggle-bm ()
+        "bm-toggle with updating history"
+        (interactive)
+        (let ((bm (concat
+                  (buffer-name) "::"
+                  (if (and (equal major-mode 'org-mode)
+                            (not (org-before-first-heading-p)))
+                      (nth 4 (org-heading-components))
+                    (format "%s" (line-number-at-pos))))))
+          (if (bm-bookmark-at (point))
+              (bookmark-delete bm)
+            (bookmark-set bm)))
+        (bm-toggle)
+        (bm-buffer-save-all)
+        (bm-repository-save))
+
+      (defun my-bm-next ()
+        "bm-next with org-mode"
+        (interactive)
+        (bm-next)
+        (when (and (equal major-mode 'org-mode)
+                  (not (org-before-first-heading-p)))
+          (widen)
+          (org-overview)
+          (org-reveal)
+          (org-cycle-hide-drawers 'all)
+          (org-show-entry)
+          (show-children)
+          (org-show-siblings)))
+
+      (defun my-bm-previous ()
+        "bm-next with org-mode"
+        (interactive)
+        (bm-previous)
+        (when (and (equal major-mode 'org-mode)
+                  (not (org-before-first-heading-p)))
+          (widen)
+          (org-overview)
+          (org-reveal)
+          (org-cycle-hide-drawers 'all)
+          (org-show-entry)
+          (show-children)
+          (org-show-siblings)))
+
+      (when (require 'ivy nil t)
+        (defun counsel-bm-get-list (bookmark-overlays)
+          (-map (lambda (bm)
+                  (with-current-buffer (overlay-buffer bm)
+                    (let* ((line (replace-regexp-in-string
+                                  "\n$" ""
+                                  (buffer-substring (overlay-start bm)
+                                                    (overlay-end bm))))
+                          ;; line numbers start on 1
+                          (line-num
+                            (+ 1 (count-lines (point-min) (overlay-start bm))))
+                          (name (format "%s:%d - %s" (buffer-name) line-num line)))
+                      `(,name . ,bm))))
+                bookmark-overlays))
+
+        (defun counsel-bm ()
+          (interactive)
+          (let* ((bm-list (counsel-bm-get-list (bm-overlays-lifo-order t)))
+                (bm-hash-table (make-hash-table :test 'equal))
+                (search-list (-map (lambda (bm) (car bm)) bm-list)))
+            (-each bm-list (lambda (bm)
+                            (puthash (car bm) (cdr bm) bm-hash-table)
+                            ))
+            (ivy-read "Find bookmark(bm.el): "
+                      search-list
+                      :require-match t
+                      :keymap counsel-describe-map
+                      :action (lambda (chosen)
+                                (let ((bookmark (gethash chosen bm-hash-table)))
+                                  (switch-to-buffer (overlay-buffer bookmark))
+                                  (bm-goto bookmark)
+                                  ))
+                      :sort t))))))
 
   ;; SuperCollider
   (add-hook 'sclang-mode-hook 'turn-on-smartparens-mode)
