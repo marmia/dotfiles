@@ -592,6 +592,7 @@ before packages are loaded."
   (define-key org-mode-map (kbd "s-b") 'org-roam-switch-to-buffer)
   (define-key org-mode-map (kbd "s-t") 'org-roam-dailies-today)
   (define-key org-mode-map (kbd "s-y") 'org-roam-dailies-yesterday)
+  (define-key org-mode-map (kbd "s-i") 'org-roam-insert)
 
   (setq org-roam-capture-templates '(("d" "default" plain (function org-roam--capture-get-point)
                                       :file-name "%<%Y%m%d%H%M%S>-${slug}"
