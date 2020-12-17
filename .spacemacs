@@ -590,7 +590,7 @@ before packages are loaded."
   (setq org-roam-directory "~/Documents/Org/roam")
   (define-key org-mode-map (kbd "s-f") 'org-roam-find-file)
   (define-key org-mode-map (kbd "s-b") 'org-roam-switch-to-buffer)
-  (define-key org-mode-map (kbd "s-t") 'org-roam-dailies-today)
+  (define-key org-mode-map (kbd "s-t") 'org-roam-dailies-find-today)
   (define-key org-mode-map (kbd "s-y") 'org-roam-dailies-yesterday)
   (define-key org-mode-map (kbd "s-i") 'org-roam-insert)
 
